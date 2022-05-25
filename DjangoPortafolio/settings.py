@@ -50,7 +50,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
 
 ROOT_URLCONF = 'DjangoPortafolio.urls'
@@ -129,16 +128,16 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_TMP = os.path.join(BASE_DIR, 'static')
-STATIC_URL = '/static/'
-
-os.makedirs(STATIC_TMP,exist_ok=True)
-os.makedirs(STATIC_ROOT,exist_ok=True)
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
-
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+if(DEBUG==True):
+    STATIC_URL = '/static/'
+    MEDIA_URL = '/static/media/'
+    STATICFILES_DIRS=[
+         os.path.join(BASE_DIR,'static')
+    ]
+    STATIC_ROOT='/static'
+    MEDIA_ROOT='/static/media'
+else:
+    STATIC_URL = '/static/'
+    MEDIA_URL='static/media/'
+    STATIC_ROOT=os.path.join(BASE_DIR,'static')
+    MEDIA_ROOT=os.path.join(BASE_DIR,'static/media/')
